@@ -1,43 +1,44 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class AnalyticsCounter {
-	private static int headacheCount = 0;
-	private static int rashCount = 0;
-	private static int pupilCount = 0;
-	
-	public static void main(String args[]) throws Exception {
-		// first get input
-		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
-		String line = reader.readLine();
 
-		int i = 0;
-		int headCount = 0;
-		while (line != null) {
-			i++;
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headCount++;
-				System.out.println("number of headaches: " + headCount);
-			}
-			else if (line.equals("rush")) {
-				rashCount++;
-			}
-			else if (line.contains("pupils")) {
-				pupilCount++;
-			}
+    public List<String> getSymptoms() {
+        ReadSymptomDataFromFile reader = new ReadSymptomDataFromFile("./symptoms.txt");
+        System.out.println(reader.getSymptoms());
+        return reader.getSymptoms();
+    }
 
-			line = reader.readLine();	// get another symptom
-		}
-		
-		// next generate output
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
-		writer.close();
-	}
+    public Map<String, Integer> countSymptoms (List<String> symptoms) {
+        //boucle dans une boucle / stream
+
+        Map<String, Integer> symptomsByOccurence = new HashMap<>();
+
+        for (String symptom : symptoms) {
+            if (symptomsByOccurence.containsKey(symptom)) {
+                symptomsByOccurence.put(symptom, symptomsByOccurence.get(symptom) + 1);
+            } else {
+                symptomsByOccurence.put(symptom, 1);
+            }
+        }
+
+        return symptomsByOccurence;
+
+    }
+
+    public Map<String, Integer> sortSymptoms (Map<String, Integer> symptomsByOccurence) {
+        Map<String, Integer> symptomsSort = new TreeMap<>(symptomsByOccurence);
+
+        return symptomsSort;
+
+    }
+
+    public void writeSymptoms (Map<String, Integer> symptomsSort) {
+        WriteSymptomDataToFile writer = new WriteSymptomDataToFile("./result.out");
+        writer.writeSymptoms(symptomsSort);
+    }
 }

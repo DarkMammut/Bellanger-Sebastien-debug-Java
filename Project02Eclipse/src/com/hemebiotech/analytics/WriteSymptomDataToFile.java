@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.Map;
 
 // Classe implémentant l'interface pour écrire les symptômes dans un fichier
-class WriteSymptomDataToFile implements ISymptomWriter {
-    private final String filepath;
+public class WriteSymptomDataToFile implements ISymptomWriter {
+    private String filepath;
 
     public WriteSymptomDataToFile(String filepath) {
         this.filepath = filepath;
