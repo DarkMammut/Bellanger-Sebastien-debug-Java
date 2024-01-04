@@ -3,6 +3,10 @@ package com.hemebiotech.analytics;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Call all methods of AnalyticsCounter
+ *
+ */
 public class Application {
     public static void main(String[] args) {
 
@@ -15,7 +19,5 @@ public class Application {
         Map<String, Integer> sortedSymptoms = analyticsCounter.sortSymptoms(symptomsByOccurrence);
 
         analyticsCounter.writeSymptoms(sortedSymptoms);
-
-        System.out.println("Symptoms analysis complete. Results written to file.");
     }
 }
